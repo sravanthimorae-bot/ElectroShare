@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#06111f">
+<title>ElectroShare - Electronics & Tech Community</title>
+
+<style>
+:root{
+  --bg:#040a13;
+  --panel:#091522;
+  --panel2:#0d1c2d;
+  --border:#1b3b55;
+  --accent:#00e5ff;
+  --green:#00ff9d;
+  --text:#ecfaff;
+  --sub:#8ca8ba;
+  --pink:#ff4f88;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  font-family:Segoe UI,Tahoma,Verdana,sans-serif;
+  color:var(--text);
+  background:#040a13;
+}
+
+body{
+  display:flex;
+  overflow:hidden;
+  position:relative;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-5;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(0,229,255,.13),transparent 25%),
+    radial-gradient(circle at 80% 70%,rgba(0,255,157,.09),transparent 25%),
+    linear-gradient(rgba(0,229,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,.035) 1px,transparent 1px),
+    #040a13;
+  background-size:auto,auto,42px 42px,42px 42px;
+}
+
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-4;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 5px,
+      rgba(0,229,255,.025) 6px
+    );
+}
+
+.sidebar{
+  width:255px;
+  flex-shrink:0;
+  background:rgba(6,16,28,.96);
+  border-right:1px solid var(--border);
+  padding:22px 17px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:8px 0 35px rgba(0,0,0,.3);
+  z-index:10;
+}
+
+.logo{
+  color:var(--accent);
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:3px;
+}
+
+.logo-sub{
+  color:var(--sub);
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:25px;
+}
+
+.nav-btn{
+  width:100%;
+  padding:12px 14px;
+  margin-bottom:7px;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:8px;
+  color:var(--text);
+  text-align:left;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+  color:var(--accent);
+  background:rgba(0,229,255,.08);
+  border-color:rgba(0,229,255,.22);
+}
+
+.profile-box{
+  margin-top:auto;
+  border-top:1px solid var(--border);
+  padding-top:15px;
+}
+
+.profile-label{
+  color:var(--sub);
+  font-size:12px;
+}
+
+.profile-name{
+  color:var(--green);
+  font-weight:700;
+  word-break:break-word;
+  margin:4px 0 13px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.stat{
+  background:#071321;
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:8px;
+  text-align:center;
+}
+
+.stat-number{
+  color:var(--accent);
+  font-size:18px;
+  font-weight:800;
+}
+
+.stat-label{
+  color:var(--sub);
+  font-size:10px;
+}
+
+.main{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.topbar{
+  min-height:70px;
+  padding:13px 27px;
+  background:rgba(6,16,28,.92);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  backdrop-filter:blur(12px);
+}
+
+.search{
+  flex:1;
+  min-width:80px;
+  padding:12px 15px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:#030914;
+  color:white;
+  outline:none;
+}
+
+.search:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 14px rgba(0,229,255,.12);
+}
+
+.top-btn,
+.action-btn{
+  border:1px solid var(--border);
+  background:#0c1b2a;
+  color:white;
+  padding:9px 13px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.top-btn{
+  color:var(--accent);
+}
+
+.action-btn:hover,
+.top-btn:hover{
+  border-color:var(--accent);
+}
+
+.content{
+  width:100%;
+  max-width:950px;
+  margin:auto;
+  padding:27px;
+  overflow-y:auto;
+}
+
+.card{
+  background:rgba(9,21,34,.94);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.18);
+}
+
+.science-label{
+  color:var(--green);
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+.post-form input,
+.post-form textarea,
+.ai-box textarea,
+.ai-box input{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:7px;
+  border:1px solid var(--border);
+  background:#030914;
+  color:white;
+  outline:none;
+  font-family:inherit;
+}
+
+.post-form textarea,
+.ai-box textarea{
+  resize:vertical;
+}
+
+.post-form input:focus,
+.post-form textarea:focus,
+.ai-box textarea:focus,
+.ai-box input:focus{
+  border-color:var(--accent);
+}
+
+.primary{
+  background:linear-gradient(90deg,var(--accent),var(--green));
+  color:#001019;
+  font-weight:800;
+  border:0;
+  padding:11px 18px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.drop-zone{
+  border:2px dashed #28536d;
+  border-radius:9px;
+  padding:21px;
+  text-align:center;
+  color:var(--sub);
+  cursor:pointer;
+  margin-bottom:10px;
+  transition:.2s;
+}
+
+.drop-zone.dragover{
+  border-color:var(--accent);
+  background:rgba(0,229,255,.06);
+  color:var(--accent);
+}
+
+.file-list{
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.file-item{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:7px 9px;
+  margin-top:5px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#06111d;
+}
+
+.file-item button{
+  border:0;
+  background:transparent;
+  color:var(--pink);
+  cursor:pointer;
+}
+
+.tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.status{
+  color:var(--sub);
+  font-size:12px;
+  margin-top:8px;
+}
+
+.post-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.post-author{
+  color:var(--accent);
+  font-weight:700;
+}
+
+.post-title{
+  margin:9px 0;
+}
+
+.post-desc{
+  color:#d8eaf2;
+  line-height:1.55;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.post-desc a{
+  color:#5fddff;
+}
+
+.post-media{
+  width:100%;
+  max-height:420px;
+  object-fit:contain;
+  background:#010509;
+  border-radius:8px;
+  margin:13px 0;
+}
+
+.post-files{
+  margin-top:10px;
+}
+
+.post-file{
+  display:inline-block;
+  border:1px solid var(--border);
+  background:#06111d;
+  color:var(--accent);
+  padding:8px 10px;
+  margin:3px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.post-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:15px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+
+.like-active{
+  background:rgba(255,79,136,.14);
+  border-color:var(--pink);
+}
+
+.subscribe-active{
+  color:var(--green);
+  border-color:var(--green);
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.big-stat{
+  background:#071321;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:17px;
+  text-align:center;
+}
+
+.big-number{
+  font-size:27px;
+  color:var(--accent);
+  font-weight:800;
+}
+
+.big-label{
+  color:var(--sub);
+  font-size:12px;
+  margin-top:3px;
+}
+
+.ai-box{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(0,229,255,.08),transparent 30%),
+    #091522;
+}
+
+.ai-output{
+  min-height:80px;
+  white-space:pre-wrap;
+  line-height:1.55;
+  color:#d9f7ff;
+  background:#030914;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:13px;
+  margin-top:10px;
+}
+
+.code-area{
+  width:100%;
+  min-height:210px;
+  background:#02060b;
+  color:#b8f5ff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:13px;
+  resize:vertical;
+  font-family:Consolas,Monaco,monospace;
+  font-size:13px;
+  outline:none;
+}
+
+.camera-box{
+  display:none;
+  margin-top:12px;
+  background:#010509;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+}
+
+.camera-box video{
+  width:100%;
+  max-height:320px;
+  border-radius:6px;
+  background:#000;
+}
+
+.auth-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center,rgba(0,229,255,.08),transparent 35%),
+    rgba(2,7,14,.97);
+}
+
+.auth-card{
+  width:min(400px,90%);
+  padding:32px;
+  background:#091522;
+  border:1px solid var(--border);
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 0 55px rgba(0,229,255,.1);
+}
+
+.auth-card h1{
+  color:var(--accent);
+  margin:0;
+}
+
+.auth-card p{
+  color:var(--sub);
+}
+
+.auth-card input{
+  width:100%;
+  padding:12px;
+  border-radius:7px;
+  border:1px solid var(--border);
+  background:#030914;
+  color:white;
+  margin:12px 0;
+}
+
+.empty{
+  text-align:center;
+  color:var(--sub);
+  padding:30px;
+}
+
+@media(max-width:800px){
+  body{display:block}
+
+  .sidebar{
+    width:100%;
+    height:auto;
+    padding:12px;
+    border-right:0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .logo{font-size:20px}
+  .logo-sub{display:none}
+
+  .nav-btn{
+    display:inline-block;
+    width:auto;
+    margin:2px;
+  }
+
+  .profile-box{display:none}
+
+  .main{
+    height:calc(100vh - 116px);
+  }
+
+  .topbar{padding:9px}
+  .content{padding:14px}
+
+  .dashboard-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="authModal" class="auth-overlay">
+  <div class="auth-card">
+    <div class="science-label">SCIENCE • ELECTRONICS • INNOVATION</div>
+    <h1>⚡ ElectroShare</h1>
+    <p>Build. Experiment. Share.</p>
+    <input id="usernameInput" maxlength="30" placeholder="Choose your username">
+    <button class="primary" style="width:100%" onclick="login()">Enter ElectroShare</button>
+  </div>
+</div>
+
+<aside class="sidebar">
+
+  <div class="logo">⚡ ElectroShare</div>
+  <div class="logo-sub">TECH COMMUNITY</div>
+
+  <button class="nav-btn active" onclick="switchTab('home',this)">🏠 Home</button>
+
+  <button class="nav-btn" onclick="switchTab('dashboard',this)">
+    📊 My Channel
+  </button>
+
+  <button class="nav-btn" onclick="switchTab('subscriptions',this)">
+    🔔 Subscriptions & Likes
+  </button>
+
+  <button class="nav-btn" onclick="switchTab('history',this)">
+    📜 History
+  </button>
+
+  <button class="nav-btn" onclick="switchTab('ai',this)">
+    🤖 AI Lab
+  </button>
+
+  <div class="profile-box">
+    <div class="profile-label">Logged in as</div>
+    <div id="currentUsername" class="profile-name">Guest</div>
+
+    <div class="stats">
+      <div class="stat">
+        <div id="sideLikes" class="stat-number">0</div>
+        <div class="stat-label">LIKES</div>
+      </div>
+
+      <div class="stat">
+        <div id="sideSubscribers" class="stat-number">0</div>
+        <div class="stat-label">SUBSCRIBERS</div>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <input
+      id="searchInput"
+      class="search"
+      type="text"
+      placeholder="Search projects, components, circuits, ideas..."
+      oninput="handleSearch()"
+    >
+
+    <button class="top-btn" onclick="requestDeviceAccess()">📷 🎤</button>
+  </div>
+
+  <div class="content">
+
+    <div id="createPostBox" class="card post-form">
+
+      <div class="science-label">LAB NOTE / NEW PROJECT</div>
+
+      <h3>🔬 Share Your Project or Idea</h3>
+
+      <input
+        id="postTitle"
+        maxlength="120"
+        placeholder="Project title / idea name"
+      >
+
+      <textarea
+        id="postDesc"
+        rows="5"
+        placeholder="Explain your project, experiment, circuit, components, code or idea..."
+      ></textarea>
+
+      <input
+        id="postMedia"
+        placeholder="Optional image/video URL"
+      >
+
+      <div id="dropZone" class="drop-zone">
+        📁 Drag & Drop files, images, videos or code here
+        <br>
+        <small>or click to select files</small>
+        <input id="fileInput" type="file" multiple hidden>
+      </div>
+
+      <div id="fileList" class="file-list"></div>
+
+      <div class="tools">
+        <button class="action-btn" onclick="requestCamera()">📷 Camera</button>
+        <button class="action-btn" onclick="requestMicrophone()">🎤 Microphone</button>
+        <button class="primary" onclick="createPost()">🚀 Publish Project</button>
+      </div>
+
+      <div id="deviceStatus" class="status"></div>
+
+      <div id="cameraBox" class="camera-box">
+        <video id="cameraVideo" autoplay playsinline></video>
+
+        <div class="tools" style="margin-top:8px">
+          <button class="action-btn" onclick="capturePhoto()">📸 Capture</button>
+          <button class="action-btn" onclick="stopCamera()">Stop Camera</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="feedContainer"></div>
+
+  </div>
+</main>
+
+<script>
+let currentUser=localStorage.getItem("es_user")||null;
+let currentTab="home";
+let searchQuery="";
+let selectedFiles=[];
+let cameraStream=null;
+let microphoneStream=null;
+
+let posts=JSON.parse(localStorage.getItem("es_posts")||"[]");
+let userHistory=JSON.parse(localStorage.getItem("es_history")||"[]");
+let likedPosts=JSON.parse(localStorage.getItem("es_likes")||"[]");
+let subscriptions=JSON.parse(localStorage.getItem("es_subs")||"[]");
+
+/* AI configuration.
+   Do NOT put a private API key in this file.
+   A real AI API should be connected through a secure server/backend.
+*/
+let aiEndpoint=localStorage.getItem("es_ai_endpoint")||"";
+
+function init(){
+
+  if(currentUser){
+    document.getElementById("authModal").style.display="none";
+    document.getElementById("currentUsername").textContent=currentUser;
+  }
+
+  setupDropZone();
+  updateCreatorStats();
+  renderFeed();
+}
+
+function login(){
+
+  const name=document.getElementById("usernameInput").value.trim();
+
+  if(!name){
+    alert("Please enter a username.");
+    return;
+  }
+
+  currentUser=name;
+
+  localStorage.setItem("es_user",currentUser);
+
+  document.getElementById("authModal").style.display="none";
+  document.getElementById("currentUsername").textContent=currentUser;
+
+  updateCreatorStats();
+  renderFeed();
+}
+
+function switchTab(tab,button){
+
+  currentTab=tab;
+
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  document.getElementById("createPostBox").style.display=
+    tab==="home"?"block":"none";
+
+  renderFeed();
+}
+
+function handleSearch(){
+
+  searchQuery=
+    document.getElementById("searchInput").value.toLowerCase();
+
+  renderFeed();
+}
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function linkify(text){
+
+  const safe=escapeHTML(text);
+
+  return safe.replace(
+    /(https?:\/\/[^\s<]+)/gi,
+    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+  );
+}
+
+function setupDropZone(){
+
+  const zone=document.getElementById("dropZone");
+  const input=document.getElementById("fileInput");
+
+  zone.addEventListener("click",()=>input.click());
+
+  input.addEventListener("change",event=>{
+    addFiles(Array.from(event.target.files));
+    input.value="";
+  });
+
+  ["dragenter","dragover"].forEach(type=>{
+
+    zone.addEventListener(type,event=>{
+      event.preventDefault();
+      zone.classList.add("dragover");
+    });
+
+  });
+
+  ["dragleave","drop"].forEach(type=>{
+
+    zone.addEventListener(type,event=>{
+      event.preventDefault();
+      zone.classList.remove("dragover");
+    });
+
+  });
+
+  zone.addEventListener("drop",event=>{
+    addFiles(Array.from(event.dataTransfer.files));
+  });
+}
+
+function addFiles(files){
+
+  selectedFiles=[
+    ...selectedFiles,
+    ...files
+  ];
+
+  renderSelectedFiles();
+}
+
+function removeSelectedFile(index){
+
+  selectedFiles.splice(index,1);
+
+  renderSelectedFiles();
+}
+
+function renderSelectedFiles(){
+
+  const container=document.getElementById("fileList");
+
+  if(!selectedFiles.length){
+    container.innerHTML="";
+    return;
+  }
+
+  container.innerHTML=selectedFiles.map((file,index)=>`
+
+    <div class="file-item">
+
+      <span>
+        📄 ${escapeHTML(file.name)}
+        (${formatSize(file.size)})
+      </span>
+
+      <button onclick="removeSelectedFile(${index})">
+        ✕
+      </button>
+
+    </div>
+
+  `).join("");
+}
+
+function formatSize(bytes){
+
+  if(bytes<1024)
+    return bytes+" B";
+
+  if(bytes<1024*1024)
+    return (bytes/1024).toFixed(1)+" KB";
+
+  return (bytes/(1024*1024)).toFixed(1)+" MB";
+}
+
+/* CAMERA */
+
+async function requestCamera(){
+
+  if(!navigator.mediaDevices ||
+     !navigator.mediaDevices.getUserMedia){
+
+    alert("Camera access is not supported by this browser.");
+    return;
+  }
+
+  try{
+
+    cameraStream=
+      await navigator.mediaDevices.getUserMedia({
+        video:true,
+        audio:false
+      });
+
+    document.getElementById("cameraVideo").srcObject=
+      cameraStream;
+
+    document.getElementById("cameraBox").style.display=
+      "block";
+
+    document.getElementById("deviceStatus").textContent=
+      "Camera access enabled.";
+
+  }catch(error){
+
+    document.getElementById("deviceStatus").textContent=
+      "Camera permission was not granted.";
+
+  }
+}
+
+/* MICROPHONE */
+
+async function requestMicrophone(){
+
+  if(!navigator.mediaDevices ||
+     !navigator.mediaDevices.getUserMedia){
+
+    alert("Microphone access is not supported by this browser.");
+    return;
+  }
+
+  try{
+
+    microphoneStream=
+      await navigator.mediaDevices.getUserMedia({
+        audio:true
+      });
+
+    document.getElementById("deviceStatus").textContent=
+      "Microphone access enabled.";
+
+  }catch(error){
+
+    document.getElementById("deviceStatus").textContent=
+      "Microphone permission was not granted.";
+
+  }
+}
+
+async function requestDeviceAccess(){
+
+  await requestCamera();
+  await requestMicrophone();
+}
+
+function capturePhoto(){
+
+  if(!cameraStream)
+    return;
+
+  const video=document.getElementById("cameraVideo");
+
+  const canvas=document.createElement("canvas");
+
+  canvas.width=video.videoWidth||1280;
+  canvas.height=video.videoHeight||720;
+
+  const context=canvas.getContext("2d");
+
+  context.drawImage(
+    video,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  canvas.toBlob(blob=>{
+
+    const file=new File(
+      [blob],
+      "electroshare-camera-capture.jpg",
+      {type:"image/jpeg"}
+    );
+
+    addFiles([file]);
+
+    document.getElementById("deviceStatus").textContent=
+      "Camera image added to your project.";
+
+  },"image/jpeg",.92);
+}
+
+function stopCamera(){
+
+  if(cameraStream){
+
+    cameraStream
+      .getTracks()
+      .forEach(track=>track.stop());
+
+    cameraStream=null;
+  }
+
+  document.getElementById("cameraVideo").srcObject=null;
+
+  document.getElementById("cameraBox").style.display=
+    "none";
+}
+
+/* FILES */
+
+function readFile(file){
+
+  return new Promise(resolve=>{
+
+    const reader=new FileReader();
+
+    reader.onload=()=>{
+      resolve({
+        name:file.name,
+        type:file.type||"application/octet-stream",
+        size:file.size,
+        data:reader.result
+      });
+    };
+
+    reader.onerror=()=>{
+      resolve({
+        name:file.name,
+        type:file.type||"application/octet-stream",
+        size:file.size,
+        data:null
+      });
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+}
+
+async function createPost(){
+
+  const title=
+    document.getElementById("postTitle").value.trim();
+
+  const desc=
+    document.getElementById("postDesc").value.trim();
+
+  const media=
+    document.getElementById("postMedia").value.trim();
+
+  if(!title||!desc){
+
+    alert("Please enter a project title and description.");
+    return;
+  }
+
+  if(!currentUser){
+
+    alert("Please sign in first.");
+    return;
+  }
+
+  const files=
+    await Promise.all(
+      selectedFiles.map(readFile)
+    );
+
+  const newPost={
+    id:Date.now(),
+    author:currentUser,
+    title:title,
+    desc:desc,
+    media:media,
+    files:files,
+    likes:0
+  };
+
+  posts.unshift(newPost);
+
+  try{
+
+    localStorage.setItem(
+      "es_posts",
+      JSON.stringify(posts)
+    );
+
+  }catch(error){
+
+    posts.shift();
+
+    alert(
+      "The selected files are too large for browser storage. Try smaller files."
+    );
+
+    return;
+  }
+
+  document.getElementById("postTitle").value="";
+  document.getElementById("postDesc").value="";
+  document.getElementById("postMedia").value="";
+
+  selectedFiles=[];
+
+  renderSelectedFiles();
+  updateCreatorStats();
+  renderFeed();
+}
+
+/* CREATOR STATISTICS */
+
+function getCreatorStats(){
+
+  if(!currentUser){
+
+    return{
+      likes:0,
+      subscribers:0,
+      projects:0
+    };
+  }
+
+  const creatorPosts=
+    posts.filter(post=>post.author===currentUser);
+
+  const totalLikes=
+    creatorPosts.reduce(
+      (total,post)=>total+(Number(post.likes)||0),
+      0
+    );
+
+  /*
+    Subscribers are calculated from the local subscription system.
+    When a real shared database is connected, this can become a
+    server-wide subscriber count.
+  */
+  let subscriberCount=0;
+
+  const knownAuthors=
+    [...new Set(posts.map(post=>post.author))];
+
+  knownAuthors.forEach(author=>{
+
+    if(author===currentUser)
+      return;
+
+    const localSubs=
+      JSON.parse(
+        localStorage.getItem(
+          "es_subs_"+author
+        )||"[]"
+      );
+
+    subscriberCount+=
+      localSubs.includes(currentUser)?1:0;
+  });
+
+  return{
+    likes:totalLikes,
+    subscribers:subscriberCount,
+    projects:creatorPosts.length
+  };
+}
+
+function updateCreatorStats(){
+
+  const stats=getCreatorStats();
+
+  document.getElementById("sideLikes").textContent=
+    stats.likes;
+
+  document.getElementById("sideSubscribers").textContent=
+    stats.subscribers;
+}
+
+/* HISTORY */
+
+function trackView(postId){
+
+  if(!userHistory.includes(postId)){
+
+    userHistory.unshift(postId);
+
+    localStorage.setItem(
+      "es_history",
+      JSON.stringify(userHistory)
+    );
+  }
+}
+
+/* LIKES */
+
+function toggleLike(postId){
+
+  const index=likedPosts.indexOf(postId);
+
+  const post=
+    posts.find(post=>post.id===postId);
+
+  if(!post)
+    return;
+
+  if(index>-1){
+
+    likedPosts.splice(index,1);
+
+    post.likes=
+      Math.max(
+        0,
+        (Number(post.likes)||0)-1
+      );
+
+  }else{
+
+    likedPosts.push(postId);
+
+    post.likes=
+      (Number(post.likes)||0)+1;
+  }
+
+  localStorage.setItem(
+    "es_likes",
+    JSON.stringify(likedPosts)
+  );
+
+  localStorage.setItem(
+    "es_posts",
+    JSON.stringify(posts)
+  );
+
+  updateCreatorStats();
+  renderFeed();
+}
+
+/* SUBSCRIPTIONS */
+
+function toggleSub(author){
+
+  if(!currentUser)
+    return;
+
+  const index=
+    subscriptions.indexOf(author);
+
+  if(index>-1){
+
+    subscriptions.splice(index,1);
+
+  }else{
+
+    subscriptions.push(author);
+  }
+
+  localStorage.setItem(
+    "es_subs",
+    JSON.stringify(subscriptions)
+  );
+
+  /*
+    Keep a per-author local subscriber record so the creator
+    dashboard can show subscriber activity.
+  */
+
+  const key="es_subs_"+author;
+
+  let authorSubscribers=
+    JSON.parse(
+      localStorage.getItem(key)||"[]"
+    );
+
+  if(authorSubscribers.includes(currentUser)){
+
+    authorSubscribers=
+      authorSubscribers.filter(
+        user=>user!==currentUser
+      );
+
+  }else{
+
+    authorSubscribers.push(currentUser);
+  }
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(authorSubscribers)
+  );
+
+  updateCreatorStats();
+  renderFeed();
+}
+
+/* SHARE */
+
+async function sharePost(title){
+
+  if(navigator.share){
+
+    try{
+
+      await navigator.share({
+        title:title,
+        text:"Check out this project on ElectroShare!",
+        url:window.location.href
+      });
+
+    }catch(error){}
+
+  }else{
+
+    try{
+
+      await navigator.clipboard.writeText(
+        window.location.href
+      );
+
+      alert("Project link copied.");
+
+    }catch(error){
+
+      alert(
+        "Share this page using your browser's share option."
+      );
+    }
+  }
+}
+
+/* FILE DOWNLOAD */
+
+function openFile(file){
+
+  if(!file||!file.data)
+    return;
+
+  const parts=file.data.split(",");
+
+  const byteString=
+    atob(parts[1]);
+
+  const array=
+    new Uint8Array(
+      byteString.length
+    );
+
+  for(
+    let i=0;
+    i<byteString.length;
+    i++
+  ){
+
+    array[i]=
+      byteString.charCodeAt(i);
+  }
+
+  const blob=
+    new Blob(
+      [array],
+      {type:file.type}
+    );
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const link=
+    document.createElement("a");
+
+  link.href=url;
+  link.download=file.name;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(url),
+    1000
+  );
+}
+
+function postFileLookup(postId,index){
+
+  const post=
+    posts.find(post=>post.id===postId);
+
+  return post&&post.files
+    ?post.files[index]
+    :null;
+}
+
+/* MY CHANNEL */
+
+function renderDashboard(){
+
+  const stats=
+    getCreatorStats();
+
+  const myPosts=
+    posts.filter(
+      post=>post.author===currentUser
+    );
+
+  return `
+
+    <div class="card">
+
+      <div class="science-label">
+        CREATOR CONTROL CENTER
+      </div>
+
+      <h2>
+        📊 ${escapeHTML(currentUser)}'s Channel
+      </h2>
+
+      <p style="color:var(--sub)">
+        Track your ElectroShare activity and project performance.
+      </p>
+
+      <div class="dashboard-grid">
+
+        <div class="big-stat">
+          <div class="big-number">
+            ${stats.projects}
+          </div>
+          <div class="big-label">
+            PROJECTS
+          </div>
+        </div>
+
+        <div class="big-stat">
+          <div class="big-number">
+            ${stats.likes}
+          </div>
+          <div class="big-label">
+            TOTAL LIKES
+          </div>
+        </div>
+
+        <div class="big-stat">
+          <div class="big-number">
+            ${stats.subscribers}
+          </div>
+          <div class="big-label">
+            SUBSCRIBERS
+          </div>
+        </div>
+
+        <div class="big-stat">
+          <div class="big-number">
+            ${subscriptions.length}
+          </div>
+          <div class="big-label">
+            FOLLOWING
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="science-label">
+        YOUR PROJECTS
+      </div>
+
+      ${
+        myPosts.length
+        ?
+        myPosts.map(post=>`
+
+          <div style="
+            padding:12px 0;
+            border-bottom:1px solid var(--border);
+          ">
+
+            <strong>
+              ${escapeHTML(post.title)}
+            </strong>
+
+            <div style="
+              color:var(--sub);
+              font-size:13px;
+              margin-top:5px;
+            ">
+              ❤️ ${post.likes||0} likes
+            </div>
+
+          </div>
+
+        `).join("")
+        :
+        `
+        <div class="empty">
+          You haven't published a project yet.
+        </div>
+        `
+      }
+
+    </div>
+  `;
+}
+
+/* AI LAB */
+
+function renderAI(){
+
+  return `
+
+    <div class="card ai-box">
+
+      <div class="science-label">
+        EXPERIMENTAL AI LAB
+      </div>
+
+      <h2>🤖 ElectroShare AI Assistant</h2>
+
+      <p style="color:var(--sub)">
+        Ask an AI about electronics, circuits, programming,
+        sensors, projects or your pasted code.
+      </p>
+
+      <textarea
+        id="aiPrompt"
+        rows="5"
+        placeholder="Example: Explain this ESP32 code and find possible errors..."
+      ></textarea>
+
+      <div class="tools">
+
+        <button
+          class="primary"
+          onclick="runAI()"
+        >
+          🧠 Ask AI
+        </button>
+
+        <button
+          class="action-btn"
+          onclick="saveAIEndpoint()"
+        >
+          ⚙ Save AI Endpoint
+        </button>
+
+      </div>
+
+      <div id="aiOutput" class="ai-output">
+        AI responses will appear here.
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="science-label">
+        AI CODE / PROJECT CODE
+      </div>
+
+      <h3>💻 Paste Your Code</h3>
+
+      <textarea
+        id="aiCode"
+        class="code-area"
+        placeholder="Paste Arduino, ESP32, Python, JavaScript, C/C++, HTML or other code here..."
+      ></textarea>
+
+      <div class="tools" style="margin-top:10px">
+
+        <button
+          class="action-btn"
+          onclick="sendCodeToAI()"
+        >
+          🔍 Analyze Code With AI
+        </button>
+
+        <button
+          class="action-btn"
+          onclick="clearAICode()"
+        >
+          Clear
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="science-label">
+        AI CONNECTION
+      </div>
+
+      <p style="color:var(--sub)">
+        A real AI service needs a secure backend or server-side
+        proxy. Never put a private AI API key directly inside
+        this public HTML file.
+      </p>
+
+      <input
+        id="aiEndpoint"
+        placeholder="Secure AI backend endpoint (optional)"
+        value="${escapeHTML(aiEndpoint)}"
+      >
+
+      <div class="status">
+        If no endpoint is configured, ElectroShare will provide
+        a local electronics helper response instead of exposing
+        an API key.
+      </div>
+
+    </div>
+
+  `;
+}
+
+function saveAIEndpoint(){
+
+  const endpoint=
+    document.getElementById("aiEndpoint").value.trim();
+
+  if(endpoint){
+
+    aiEndpoint=endpoint;
+
+    localStorage.setItem(
+      "es_ai_endpoint",
+      aiEndpoint
+    );
+
+    alert("AI endpoint saved.");
+
+  }else{
+
+    aiEndpoint="";
+
+    localStorage.removeItem(
+      "es_ai_endpoint"
+    );
+
+    alert("AI endpoint removed.");
+  }
+}
+
+async function runAI(){
+
+  const prompt=
+    document.getElementById("aiPrompt").value.trim();
+
+  const output=
+    document.getElementById("aiOutput");
+
+  if(!prompt){
+
+    output.textContent=
+      "Enter a question for the AI first.";
+
+    return;
+  }
+
+  if(!aiEndpoint){
+
+    output.textContent=
+      localElectronicsAssistant(prompt);
+
+    return;
+  }
+
+  output.textContent=
+    "Connecting to your AI service...";
+
+  try{
+
+    const response=
+      await fetch(
+        aiEndpoint,
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            prompt:prompt
+          })
+        }
+      );
+
+    if(!response.ok)
+      throw new Error("AI request failed.");
+
+    const data=
+      await response.json();
+
+    output.textContent=
+      data.response||
+      data.answer||
+      data.message||
+      JSON.stringify(data,null,2);
+
+  }catch(error){
+
+    output.textContent=
+      "The configured AI endpoint could not be reached. Check the endpoint and your server configuration.";
+  }
+}
+
+async function sendCodeToAI(){
+
+  const code=
+    document.getElementById("aiCode").value.trim();
+
+  if(!code){
+
+    document.getElementById("aiOutput").textContent=
+      "Paste your code first.";
+
+    return;
+  }
+
+  document.getElementById("aiPrompt").value=
+`Analyze the following electronics/programming code.
+
+Explain what it does, identify possible errors, suggest improvements, and explain the important parts clearly.
+
+CODE:
+
+${code}`;
+
+  await runAI();
+}
+
+function clearAICode(){
+
+  document.getElementById("aiCode").value="";
+}
+
+function localElectronicsAssistant(prompt){
+
+  const text=prompt.toLowerCase();
+
+  if(
+    text.includes("esp32")||
+    text.includes("arduino")||
+    text.includes("sensor")||
+    text.includes("circuit")
+  ){
+
+    return `ElectroShare local AI helper:
+
+Your question appears to be related to electronics.
+
+Try checking:
+• Power supply voltage
+• Ground connections
+• Component pin connections
+• Sensor input/output pins
+• Serial Monitor output
+• Library compatibility
+• Arduino IDE board selection
+• Short circuits or reversed polarity
+
+For detailed AI analysis, connect a secure AI backend in the AI Connection section.`;
+  }
+
+  return `ElectroShare local AI helper:
+
+I can help organize an electronics problem, but a full generative AI model requires an AI service connected through a secure backend.
+
+Your request was:
+
+${prompt}
+
+For a real AI assistant, connect your own secure AI endpoint without placing a private API key in this public website.`;
+}
+
+/* MAIN FEED */
+
+function renderFeed(){
+
+  const container=
+    document.getElementById("feedContainer");
+
+  container.innerHTML="";
+
+  if(currentTab==="dashboard"){
+
+    container.innerHTML=
+      renderDashboard();
+
+    return;
+  }
+
+  if(currentTab==="ai"){
+
+    container.innerHTML=
+      renderAI();
+
+    return;
+  }
+
+  let filtered=
+    posts.filter(post=>{
+
+      const matchesSearch=
+        post.title.toLowerCase().includes(searchQuery)||
+        post.desc.toLowerCase().includes(searchQuery)||
+        post.author.toLowerCase().includes(searchQuery);
+
+      if(!matchesSearch)
+        return false;
+
+      if(currentTab==="subscriptions"){
+
+        return subscriptions.includes(post.author)||
+               likedPosts.includes(post.id);
+      }
+
+      if(currentTab==="history"){
+
+        return userHistory.includes(post.id);
+      }
+
+      return true;
+    });
+
+  if(!filtered.length){
+
+    container.innerHTML=`
+
+      <div class="card empty">
+
+        <div style="font-size:40px">
+          🔬
+        </div>
+
+        <h3>
+          No projects found
+        </h3>
+
+        <p>
+          Be the first to share an electronics
+          project, experiment or idea.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  filtered.forEach(post=>{
+
+    const isLiked=
+      likedPosts.includes(post.id);
+
+    const isSubbed=
+      subscriptions.includes(post.author);
+
+    let mediaHTML="";
+
+    if(post.media){
+
+      const safeMedia=
+        escapeHTML(post.media);
+
+      if(
+        /\.(mp4|webm|ogg)(\?.*)?$/i
+        .test(post.media)
+      ){
+
+        mediaHTML=`
+          <video
+            class="post-media"
+            controls
+            src="${safeMedia}"
+          ></video>
+        `;
+
+      }else{
+
+        mediaHTML=`
+          <img
+            class="post-media"
+            src="${safeMedia}"
+            alt="Project media"
+            onerror="this.style.display='none'"
+          >
+        `;
+      }
+    }
+
+    let filesHTML="";
+
+    if(
+      post.files&&
+      post.files.length
+    ){
+
+      filesHTML=`
+
+        <div class="post-files">
+
+          ${post.files.map(
+            (file,index)=>`
+
+              <button
+                class="post-file"
+                onclick="
+                  event.stopPropagation();
+                  openFile(
+                    postFileLookup(
+                      ${post.id},
+                      ${index}
+                    )
+                  )
+                "
+              >
+                📎 ${escapeHTML(file.name)}
+              </button>
+
+            `
+          ).join("")}
+
+        </div>
+      `;
+    }
+
+    const postEl=
+      document.createElement("div");
+
+    postEl.className="card";
+
+    postEl.onclick=
+      ()=>trackView(post.id);
+
+    postEl.innerHTML=`
+
+      <div class="post-header">
+
+        <span class="post-author">
+          @${escapeHTML(post.author)}
+        </span>
+
+        ${
+          post.author!==currentUser
+          ?
+          `
+          <button
+            class="action-btn ${isSubbed?"subscribe-active":""}"
+            onclick="
+              event.stopPropagation();
+              toggleSub('${escapeHTML(post.author)}')
+            "
+          >
+            ${isSubbed?"✓ Subscribed":"+ Subscribe"}
+          </button>
+          `
+          :
+          `
+          <span class="science-label">
+            YOUR PROJECT
+          </span>
+          `
+        }
+
+      </div>
+
+      <h3 class="post-title">
+        ${escapeHTML(post.title)}
+      </h3>
+
+      <div class="post-desc">
+        ${linkify(post.desc)}
+      </div>
+
+      ${mediaHTML}
+
+      ${filesHTML}
+
+      <div class="post-actions">
+
+        <button
+          class="action-btn ${isLiked?"like-active":""}"
+          onclick="
+            event.stopPropagation();
+            toggleLike(${post.id})
+          "
+        >
+          ❤️ ${post.likes||0}
+        </button>
+
+        <button
+          class="action-btn"
+          onclick="
+            event.stopPropagation();
+            sharePost('${escapeHTML(post.title)}')
+          "
+        >
+          🔗 Share
+        </button>
+
+      </div>
+
+    `;
+
+    container.appendChild(postEl);
+  });
+}
+
+/* PAGE LIFECYCLE */
+
+window.addEventListener(
+  "beforeunload",
+  ()=>{
+    if(cameraStream){
+
+      cameraStream
+        .getTracks()
+        .forEach(track=>track.stop());
+    }
+
+    if(microphoneStream){
+
+      microphoneStream
+        .getTracks()
+        .forEach(track=>track.stop());
+    }
+  }
+);
+
+init();
+</script>
+
+</body>
+</html>
